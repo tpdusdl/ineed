@@ -8,10 +8,14 @@ const GoogleButton = () => {
     flow: 'auth-code',
   });
 
+  const movePage = useNavigate();
+  function gotomain(){
+    movePage('user/main');
+}
   return (
     <GoogleOAuthProvider clientId={`${'505023142086-ksfstvllrbegphdf68qhr8fg4ko87nl3.apps.googleusercontent.com'}`}>
       <GoogleLogin
-        onSuccess={(res) => console.log(res, '성공')}
+        onSuccess={(res) => {gotomain} } 
         onFailure={(res) => console.log(res, '실패')}
         render={(renderProps) => (
           <div className='social_login_box google' onClick={renderProps.onClick}>

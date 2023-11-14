@@ -1,0 +1,240 @@
+/* .main {
+  width: 1366px;
+  height: 1466px;
+  border-radius: 54px;
+  background: #fff;
+} */
+
+.Main .navbar {
+    width: 1388x;
+    height: 74px;
+    flex-shrink: 0;
+    /* border-radius: 54px 54px 0px 0px;  //모서리 둥글게?*/
+    background: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+  }
+  
+  .Main .logo {
+    width: 128px;
+    height: 54.136px;
+    flex-shrink: 0;
+    background-image: url("../src/components/main/logo.png");
+    margin-left: 20px;
+    margin-right: 930px;
+  }
+  
+  .Main .who {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    background-image: url("../src/components/main/who.png");
+    margin-right: 121px;
+  }
+  
+  .Main .mypage {
+    color: #1c1c1c;
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 35px;
+  }
+  
+  .Main .logout {
+    color: #1c1c1c;
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .Main .topbar {
+    width: 1125px;
+    height: 461px;
+    flex-shrink: 0;
+    display: flex;
+    margin-top: 30px;
+  }
+  
+  .Main .todo {
+    width: 507px;
+    height: 461px;
+    flex-shrink: 0;
+    margin-left: 82px;
+    margin-right: 211px;
+  }
+  
+  .Main .title_todo {
+    color: #1c1c1c;
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-left: 15px;
+  }
+  
+  .Main .todo_box {
+    width: 507px;
+    height: 421px;
+    flex-shrink: 0;
+    border-radius: 34px;
+    background: #f2f2f2;
+  
+    /* 04 dp */
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  .list {
+    width: 458px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox {
+    width: 14px;
+    height: 14px;
+    background-image: url("../src/components/main/Checkbox.png");
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 15px;
+  }
+  
+  .list_text {
+    color: #000;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 15px;
+  }
+  
+  .list_line {
+    width: 458px;
+    height: 1px;
+    background: #b0b0b0;
+    margin-left: 15px;
+    margin-top: 10px;
+  }
+  
+  .main .calendar {
+    width: 507px;
+    height: 421px;
+    flex-shrink: 0;
+  }
+  
+  .main .title_cal {
+    color: #1c1c1c;
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .main .cal_box {
+    width: 507px;
+    height: 421px;
+    flex-shrink: 0;
+    border-radius: 34px;
+    background: #f2f2f2;
+  
+    /* 04 dp */
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  .main .line {
+    display: flex;
+    width: 1382.002px;
+    height: 2px;
+    background: #d9d9d9;
+    margin-top: 30px;
+    margin-left: 30px;
+    justify-content: center;
+  }
+  
+  .main .noti {
+    display: flex;
+    align-items: center;
+  }
+  
+  .main .noti1 {
+    width: 507px;
+    height: 465px;
+    flex-shrink: 0;
+    margin-left: 82px;
+    margin-right: 141px;
+    margin-top: 40px;
+  }
+  
+  .main .noti1_text {
+    display: flex;
+    color: #1c1c1c;
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    justify-content: center;
+  }
+  
+  .main .noti1_box {
+    width: 507px;
+    height: 421px;
+    flex-shrink: 0;
+    border-radius: 34px;
+    background: #f2f2f2;
+    /* 04 dp */
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+    background-image: url("../src/components/main/ex.19.png");
+  }
+  
+  .main .noti2 {
+    width: 507px;
+    height: 465px;
+    flex-shrink: 0;
+    margin-left: 82px;
+    margin-right: 211px;
+    margin-top: 30px;
+  }
+  
+  .main .noti2_text {
+    display: flex;
+    color: #1c1c1c;
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    justify-content: center;
+  }
+  
+  .main .noti2_box {
+    width: 507px;
+    height: 421px;
+    flex-shrink: 0;
+    border-radius: 34px;
+    background: #f2f2f2;
+  
+    /* 04 dp */
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+    background-image: url("../src/components/main/ex.19.png");
+  }
+  
+  .main .noti3_text {
+    display: flex;
+    color: #1c1c1c;
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    justify-content: center;
+  }

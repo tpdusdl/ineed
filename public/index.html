@@ -1,20 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+
+<html>
+  
+<head>
+  <script src="https://www.gstatic.com/firebasejs/8.6.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.4/firebase-auth.js"></script>
+  
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+   const firebaseConfig = {
+  apiKey: "AIzaSyC4RubiI1k7n2ivGw0leIXxELKQy1aFfo0",
+  authDomain: "ineed-eeb6c.firebaseapp.com",
+  projectId: "ineed-eeb6c",
+  storageBucket: "ineed-eeb6c.appspot.com",
+  messagingSenderId: "524655598727",
+  appId: "1:524655598727:web:a0253edc9e57ab44d96c22",
+  measurementId: "G-TKNFG5D5KG"
+};
+
+    firebase.initializeApp(firebaseConfig);
+
+    const handleGoogleLogin = async () => {
+      const result = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      console.log(result.user.uid);
+      console.log(await result.user.getIdToken());
+    }
+  </script>
+
+  <!-- <button id="google-login-button" onclick="handleGoogleLogin();">google login</button> -->
+ 
+</body>
+
+
 </html>
