@@ -1,11 +1,24 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React,{useEffect} from "react";
+import { useNavigate} from "react-router-dom";
 import { useState } from "react";
 import "../src/Main.css";
-
+import Mypage from './Mypage';
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+
+
+import { onAuthStateChanged, signOut,getAuth, GoogleAuthProvider, signInWithPopup, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth';
+
+import { createGlobalStyle } from 'styled-components';
+import TodoCreate from "./components/todolist/TodoCreate.js";
+import TodoHead from "./components/todolist/TodoHead.js";
+import TodoItem from "./components/todolist/TodoItem.js";
+import TodoList from "./components/todolist/TodoList.js";
+import TodoTemplate from "./components/todolist/TodoTemplate.js";
+import { TodoProvider } from './components/todolist/TodoContext.js';
+
+import { analytics} from './fbase';
 
 export default function Main() {
   const [urls, setUrls] = useState([
@@ -15,51 +28,135 @@ export default function Main() {
     "https://www.seoultech.ac.kr/service/info/notice/", //대학공지
   ]); //기본 URL 초기설정 (추후 입력받는 걸로 변경)
 
-  const handleInputChange = (index, event) => {
-    const updatedUrls = [...urls];
-    updatedUrls[index] = event.target.value;
-    setUrls(updatedUrls);
+ 
+  
+  
+  const [userDisplayName, setUserDisplayName] = useState(null);
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in.
+        setUserDisplayName(user.displayName);
+      } else {
+        // User is signed out.
+        setUserDisplayName(null);
+      }
+    });
+
+    return () => {
+      // Unsubscribe the observer when the component unmounts
+      unsubscribe();
+    };
+  }, [auth]);
+
+  useEffect(() => {
+    // Set session persistence to ensure the user is remembered after a refresh
+    setPersistence(auth, browserSessionPersistence);
+  }, [auth]);
+
+  
+
+
+
+
+
+
+  const gotomypage = () => {
+    // Use navigate to go to the '/mypage' route
+    navigate('./mypage');
   };
+ 
+  // const auth = getAuth();
+  const user = auth.currentUser;
+  const providerData = user ? user.providerData : [];
+  providerData.forEach((profile) => {
+    console.log('name:'+profile.displayName);
+  });
+
+
+
+  
+  const GlobalStyle = createGlobalStyle`
+  body {
+  
+  }
+`;
+
+
+const onLogOutClick = async () => {
+    try {
+      // Clear session persistence
+      await setPersistence(auth, browserSessionPersistence);
+      await signOut(auth);
+      navigate('/');
+    } catch (error) {
+      console.error('Error clearing session persistence:', error);
+    }
+};
+
+  // const logout = async () => {
+  //   const isLogOut = window.confirm(authMessage['auth/logout-confirm']);
+  //   if (!isLogOut) return;
+  
+  //   try {
+  //     const auth = getAuth();
+  //     await signOut(auth);
+  //     setAuthInfo(initialState);
+  //     navigate('/');
+  //   } catch ({ code, message }) {
+  //     alert(errorMessage[code]);
+  //   }
+  // };
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="main">
       <div className="navbar">
         <div className="logo"></div> {/* 이미지 파일 */}
         <div className="who"></div> {/* Who SVG 이미지 */}
-        <div className="name">rka</div>
-        <div className="mypage">mypage</div>
-        <div className="logout">logout</div>
+        <div>
+        {providerData.map((profile, index) => (
+        <div className="name">{profile.displayName}</div>))}
+        </div>
+
+        <div className="mypage" onClick={gotomypage}>mypage</div>    
+        <div className="logout" onClick={onLogOutClick}>logout</div>
       </div>
 
-      {/* <div style={todolistStyle}></div>
-      <div style={CalenderStyle}></div> */}
+      
       <div className="topbar">
-        <div className="todo">
-          <div className="title_todo">
-            To do list
-            <div className="todo_plus">+</div>
-          </div>
-          <div className="todo_box">
-            <div className="list">
-              <div className="checkbox"></div>
-              <div className="list_text">개발세션 정기미팅 5:30</div>
-              <div className="setting"></div>
-            </div>
-            <div className="list_line"></div>
-            <div className="list">
-              <div className="checkbox"></div>
-              <div className="list_text">개발세션 정기미팅 5:30</div>
-              <div className="setting"></div>
-            </div>
-            <div className="list_line"></div>
-            <div className="list">
-              <div className="checkbox"></div>
-              <div className="list_text">개발세션 정기미팅 5:30</div>
-              <div className="setting"></div>
-            </div>
-            <div className="list_line"></div>
-          </div>
-        </div>
+
+      
+
+         <div className="todo">
+         <TodoProvider>
+      <GlobalStyle />
+      <TodoTemplate>
+        <TodoHead />
+        <TodoList />
+        <TodoCreate />
+      </TodoTemplate>
+    </TodoProvider>
+   
+      
+        </div>  
+
+
+
+       
+
 
         <div className="calendar">
           {/* <div className="title_cal">Calendar</div> //캘린더 타이틀*/}
@@ -76,6 +173,7 @@ export default function Main() {
           />
         </div>
       </div>
+      <br></br><br></br>
       <div className="line"></div>
       <div className="noti">
         <div className="noti1">
@@ -122,6 +220,7 @@ export default function Main() {
     </div>
   );
 }
+
 
 
 
