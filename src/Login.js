@@ -4,13 +4,13 @@ import { ReactComponent as Name } from "./components/svg/ineed_name.svg";
 import { ReactComponent as  Next} from "./components/svg/next.svg";
 import { ReactComponent as Login_with_others} from "./components/svg/loginwithothers.svg";
 import { ReactComponent as GoogleLogin} from "./components/svg/google_login.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import './Login.css';
 import { analytics } from './fbase';
 import { getAuth, GoogleAuthProvider, signInWithPopup, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth';
 import { FirebaseApp} from "firebase/app";
-import { useState } from 'react';
-import React from 'react';
+import { useState} from 'react';
+import React, {useCallback} from 'react';
 // import { getAuth, signInWithRedirect } from "firebase/auth";
 // import ReactDOM from 'react-dom/client';
 // import { BrowserRouter } from "react-router-dom";
@@ -19,7 +19,6 @@ import { initializeApp } from 'firebase/app';
 
 import { getAnalytics } from "firebase/analytics";
 import Main from "./Main";
-
 
 function Login() {
 
@@ -44,20 +43,28 @@ function Login() {
   
   const handleGoogleLogin1 = async () => {
     const auth=getAuth(firebaseApp);
+    
     const provider=new GoogleAuthProvider();
-    try{
-      const result=await signInWithPopup(auth, provider);
+    try {
+      // Set session persistence
+      await setPersistence(auth, browserSessionPersistence);
+      
+      const result = await signInWithPopup(auth, provider);
       console.log(result.user.uid);
       console.log(await result.user.getIdToken());
+      
       movePage('user/main');
-    }catch(error){
-      console.error('에러발생',error);
+    } catch (error) {
+      console.error('에러발생', error);
     }
 
     // const result = await signInWithPopup(new GoogleAuthProvider());
     // console.log(result.user.uid);
     // console.log(await result.user.getIdToken());
   }
+
+
+
 
   
   
@@ -81,7 +88,14 @@ function Login() {
    
 
     function gotomain(){
-        movePage('user/main');
+    const auth = getAuth(firebaseApp);
+    const user = auth.currentUser;
+    if (user) {
+      movePage('user/main');
+    } else {
+      // User not authenticated, handle accordingly (e.g., show an error message)
+      console.error('User not authenticated');
+    }
     }
   
     
