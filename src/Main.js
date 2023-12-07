@@ -1,5 +1,7 @@
+main.js
+
 import React,{useEffect} from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
 import { useState } from "react";
 import "../src/Main.css";
 import Mypage from './Mypage';
@@ -18,6 +20,9 @@ import { onAuthStateChanged, signOut,getAuth, GoogleAuthProvider,
    signInWithPopup, setPersistence, signInWithEmailAndPassword, 
    browserSessionPersistence, signInWithRedirect
    } from 'firebase/auth';
+
+import DOMPurify from 'dompurify';
+
 
 // import { createGlobalStyle } from 'styled-components';
 // import TodoCreate from "./components/todolist/TodoCreate.js";
@@ -79,6 +84,7 @@ import { initializeApp } from "firebase/app";
   };
 
   const TodoItem = (props) => {
+    
     const style = props.todoItem.isFinished ? { textDecoration: 'line-through' } : {};
     const handleCheckboxClick = () => {
       props.onTodoItemClick(props.todoItem);
@@ -129,8 +135,10 @@ import { initializeApp } from "firebase/app";
   export default function Main() {
   const [currentUser, setCurrentUser] = useState(null);
   const [todoItemList, setTodoItemList] = useState([]);
+  const [urlContents, setUrlContents] = useState([]);
 
- 
+
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setCurrentUser(user.uid);
@@ -141,7 +149,7 @@ import { initializeApp } from "firebase/app";
 
   const syncTodoItemListStateWithFirestore = () => {
     const q = query(collection(db, "todoItem"), where("userId", "==", currentUser), orderBy("createdTime", "desc"));
- 
+
 
     getDocs(q).then((querySnapshot) => {
       const firestoreTodoItemList = [];
@@ -158,11 +166,48 @@ import { initializeApp } from "firebase/app";
     });
   };
 
+  
 
   useEffect(() => {
     syncTodoItemListStateWithFirestore();
  
   }, [currentUser]);
+
+
+
+
+  const syncUrlContentWithFirestore = () => {
+    const q = query(collection(db, "urlItem"), where("userId", "==", currentUser));
+  
+    getDocs(q).then((querySnapshot) => {
+      const firestoreUrlItemList = [];
+      querySnapshot.forEach((doc) => {
+        firestoreUrlItemList.push({
+          id: doc.id,
+          urlItemContent: doc.data().urlItemContent,
+          createdTime: doc.data().createdTime ?? 0,
+          userId: doc.data().userId,
+          // Add other fields as needed
+        });
+      });
+      // Do something with firestoreUrlItemList, set it in the state or use it directly
+      setUrlContents(firestoreUrlItemList);
+      console.log("Firestore URL Item List:", firestoreUrlItemList);
+    });
+  };
+  
+  useEffect(() => {
+    syncUrlContentWithFirestore();
+  }, [currentUser]);
+
+
+
+
+
+
+
+
+
   const onSubmit = async (newTodoItem) => {
     await addDoc(collection(db, "todoItem"), {
       todoItemContent: newTodoItem,
@@ -191,14 +236,6 @@ import { initializeApp } from "firebase/app";
 
  
 
-  const [currentUrl, setCurrentUrl] = useState("");
-
-  const [urls, setUrls] = useState([
-    "https://www.seoultech.ac.kr/service/info/janghak/", //장학공지
-    "https://www.seoultech.ac.kr/service/info/matters/", //학사공지
-    "https://iise.seoultech.ac.kr", //학과공지
-    "https://www.seoultech.ac.kr/service/info/notice/", //대학공지
-  ]); //기본 URL 초기설정 (추후 입력받는 걸로 변경)
 
  
   
@@ -347,46 +384,24 @@ const onLogOutClick = async () => {
 
       <div className="line"></div>
       <div className="noti">
-        <div className="noti1">
-          <div className="noti1_text">장학공지</div>
-          <div className="noti1_box">
-              <iframe
-              title="WebPage Preview 1"
-              src={urls[0]}
-              className="noti1_box"
-              ></iframe>
-          </div>
-        </div>
-        <div className="noti2">
-          <div className="noti2_text">학사공지</div>
-          <div className="noti2_box">
-            <iframe
-              title="WebPage Preview 2"
-              src={urls[1]}
-              className="noti2_box"
-            ></iframe>
-          </div>
-        </div>
-        <div className="noti3">
-          <div className="noti3_text">산업정보시스템 공지사항</div>
-          <div className="noti3_box">
+      {urlContents.map((urlItem, index) => (
+    <div key={index} className={`noti${index + 1}`}>
+      <div className={`noti${index + 1}_text`}>{urlItem.urlItemContent}</div>
+      <div className={`noti${index + 1}_box`}>
+   
           <iframe
-              title="WebPage Preview 3"
-              src={urls[2]}
-              className="noti3_box"
-            ></iframe>
-          </div>
-        </div>
-        <div className="noti4">
-          <div className="noti4_text">대학 공지사항</div>
-          <div className="noti4_box">
-          <iframe
-              title="WebPage Preview 4"
-              src={urls[3]}
-              className="noti4_box"
-            ></iframe>
-          </div>
-        </div>
+            title={`WebPage Preview ${index + 1}`}
+            className={`noti${index + 1}_box`}
+            src={urlItem.urlItemContent}
+            onLoad={() => console.log(`Loaded: ${urlItem.urlItemContent}`)}
+            onError={(error) => console.error(`Error: ${error.message}`)}
+          ></iframe>
+        
+      </div>
+    </div>
+  ))}
+    
+       
       </div>
     </div>
   );
