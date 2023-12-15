@@ -1,3 +1,9 @@
+/* .main {
+  width: 1366px;
+  height: 1466px;
+  border-radius: 54px;
+  background: #fff;
+} */
 
 .main .navbar {
   width: 1388x;
@@ -44,7 +50,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-right: 35px;
+  margin-right: 10px;
 }
 
 .main .logout {
@@ -162,7 +168,7 @@
 }
 
 .main .cal_box {
-  width: 507px;
+  width: 700px;
   height: 421px;
   flex-shrink: 0;
   border-radius: 34px;
@@ -179,6 +185,7 @@
   background: #d9d9d9;
   margin-top: 30px;
   margin-left: 30px;
+ 
   justify-content: center;
 }
 
@@ -190,7 +197,7 @@
 }
 
 .main .noti1 {
-  width: 507px;
+  width: 700px;
   height: 465px;
   flex-shrink: 0;
   margin-left: 82px;
@@ -211,7 +218,7 @@
 }
 
 .main .noti1_box {
-  width: 507px;
+  width: 700px;
   height: 421px;
   flex-shrink: 0;
   border-radius: 34px;
@@ -222,7 +229,7 @@
 }
 
 .main .noti2 {
-  width: 507px;
+  width: 700px;
   height: 465px;
   flex-shrink: 0;
   margin-left: 82px;
@@ -243,7 +250,7 @@
 }
 
 .main .noti2_box {
-  width: 507px;
+  width: 700px;
   height: 421px;
   flex-shrink: 0;
   border-radius: 34px;
@@ -267,7 +274,7 @@
 }
 
 .noti3 {
-  width: 507px;
+  width: 700px;
   height: 465px;
   flex-shrink: 0;
   margin-left: 82px;
@@ -276,7 +283,7 @@
 }
 
 .main .noti3_box {
-  width: 507px;
+  width: 700px;
   height: 421px;
   flex-shrink: 0;
   border-radius: 34px;
@@ -288,7 +295,7 @@
 }
 
 .main .noti4 {
-  width: 507px;
+  width: 700px;
   height: 465px;
   flex-shrink: 0;
   margin-left: 82px;
@@ -309,7 +316,7 @@
 }
 
 .main .noti4_box {
-  width: 507px;
+  width: 700px;
   height: 421px;
   flex-shrink: 0;
   border-radius: 34px;
