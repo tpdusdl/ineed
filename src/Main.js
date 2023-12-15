@@ -1,7 +1,7 @@
-main.js
+
 
 import React,{useEffect} from "react";
-import { useNavigate, useLocation} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { useState } from "react";
 import "../src/Main.css";
 import Mypage from './Mypage';
@@ -17,11 +17,11 @@ import TextField from '@mui/material/TextField';
 
 
 import { onAuthStateChanged, signOut,getAuth, GoogleAuthProvider,
-   signInWithPopup, setPersistence, signInWithEmailAndPassword, 
-   browserSessionPersistence, signInWithRedirect
+    setPersistence, 
+   browserSessionPersistence,
    } from 'firebase/auth';
 
-import DOMPurify from 'dompurify';
+
 
 
 // import { createGlobalStyle } from 'styled-components';
@@ -326,9 +326,9 @@ const onLogOutClick = async () => {
         {providerData.map((profile, index) => (
         <div className="name">{profile.displayName}</div>))}
         </div>
-
+        
         <div className="mypage" onClick={gotomypage}>mypage</div>    
-        <div className="logout" onClick={onLogOutClick}>logout</div>
+        <span className="logout" onClick={onLogOutClick}>logout</span>
       </div>
 
       
