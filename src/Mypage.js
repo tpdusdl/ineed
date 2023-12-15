@@ -1,4 +1,4 @@
-mypage.js
+
 import React, { useState, useEffect } from "react";
 import { useNavigate} from "react-router-dom";
 import "../src/Mypage.css";
@@ -9,8 +9,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 import { onAuthStateChanged, signOut,getAuth, GoogleAuthProvider,
-  signInWithPopup, setPersistence, signInWithEmailAndPassword, 
-  browserSessionPersistence, signInWithRedirect
+  setPersistence, 
+  browserSessionPersistence, 
   } from 'firebase/auth';
 
 import { getAnalytics } from "firebase/analytics";
@@ -202,40 +202,56 @@ export default function Mypage(){
 
 
 
+  const [userDisplayName, setUserDisplayName] = useState(null);
   
   
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in.
+        setUserDisplayName(user.displayName);
+      } else {
+        // User is signed out.
+        setUserDisplayName(null);
+      }
+    });
+
+    return () => {
+      // Unsubscribe the observer when the component unmounts
+      unsubscribe();
+    };
+  }, [auth]);
+
+  
+
+
   useEffect(() => {
     // Set session persistence to ensure the user is remembered after a refresh
     setPersistence(auth, browserSessionPersistence);
   }, [auth]);
 
   
-    
-  const addNewContainer = () => {
-    const newContainer = (
-      <div className="ineed_container">
-        <div className="ineed_box">
-          <div className="frame_img"></div>
-          <div className="ineed_text">
-            <div className="ineed_title">사이트 수정</div>
-            <div className="ineed_url">
-              https://www.seoultech.ac.kr/service/info/janghak/
-            </div>
-          </div>
-          <div className="ineed_fix"></div>
-          <div className="ineed_del"></div>
-        </div>
-      </div>
-    );
-    
-    }
+
+  const user = auth.currentUser;
+  const providerData = user ? user.providerData : [];
+  providerData.forEach((profile) => {
+    console.log('name:'+profile.displayName);
+  });
+
+
+
+
 
   return (
     <div>
       <div className="navbar">
         <div className="logo"></div> {/* 이미지 파일 */}
-        <div className="who"></div> {/* Who SVG 이미지 */}
-        <div className="main" onClick={gotomain}>Main</div> 
+        <div className="who">   </div>
+        {providerData.map((profile, index) => (
+        <div className="name">{profile.displayName}</div>))}
+        {/*Who SVG 이미지*/}
+        <div className="gotomain" onClick={gotomain}>Main</div> 
       </div>
 
       <div className="text">
@@ -246,7 +262,7 @@ export default function Mypage(){
 
       <div className="ineed_container">
         
-          <div className="frame_img"></div>
+         
           <div className="ineed_text">
             <div className="ineed_title"></div>
             
@@ -260,34 +276,21 @@ export default function Mypage(){
     onRemoveClick={onRemoveClick}
     
   />
-            <div className="ineed_box">
           
-            
-           </div>
      </div>
-          <div className="ineed_fix"></div>
-          <div className="ineed_del"></div>
+          
         </div>
 
 
       </div>
 
-      {/* {containers.map((container, index) => (
-        <div key={index}>{container}</div>
-      ))} */}
+     
 
-      <div className="ineed_add" onClick={addNewContainer}>
-        <div className="icon_plus">+</div>
-      </div>
+      
 
       <div className="line2"></div>
 
-      <div className="logout_box">
-        <div className="logout_text">로그아웃</div>
-      </div>
-      <div className="deleteacc_box">
-        <div className="deleteacc_text">회원탈퇴</div>
-      </div>
+     
     </div>
   );
   
